@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健診コース診断</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #healthCheckForm {
+      margin-bottom: 20px;
+    }
+
+    #result {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>健診コース診断</h1>
+  <form id="healthCheckForm">
+    <label for="dob">生年月日を入力してください:</label>
+    <input type="date" id="dob" name="dob" required>
+    <button type="submit">健診コースを確認</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("healthCheckForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const dob = new Date(document.getElementById("dob").value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+
+      let course = getHealthCheckCourse(age);
+      document.getElementById("result").innerText = `あなたの年齢は${age}歳です。健診コースは: ${course}`;
+    });
+
+    function getHealthCheckCourse(age) {
+      if (age < 40) {
+        return "基本健診";
+      } else if (age < 50) {
+        return "成人健診";
+      } else {
+        return "高齢者健診";
+      }
+    }
+  </script>
+</body>
+</html>
