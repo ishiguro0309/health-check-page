@@ -22,7 +22,7 @@
       height: 100vh;
     }
 
-    /* フォームのデザイン */
+    /* フォーム全体のデザイン */
     .form-container {
       background-color: rgba(0, 0, 0, 0.7); /* 半透明の黒背景 */
       padding: 30px;
@@ -33,7 +33,7 @@
     }
 
     /* 入力フィールドのデザイン */
-    input[type="date"], input[type="submit"] {
+    input[type="number"], input[type="submit"] {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
@@ -61,14 +61,28 @@
       border-radius: 5px;
       display: none; /* 初期状態では非表示 */
     }
+
+    /* モバイル対応のためのレスポンシブデザイン */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      .form-container {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
     <h1>健診コース診断</h1>
     <form id="health-check-form">
-      <label for="dob">生年月日を入力してください</label><br>
-      <input type="date" id="dob" name="dob" required><br>
+      <label for="year">年</label>
+      <input type="number" id="year" name="year" placeholder="例: 1990" required><br>
+      <label for="month">月</label>
+      <input type="number" id="month" name="month" placeholder="例: 01" required><br>
+      <label for="day">日</label>
+      <input type="number" id="day" name="day" placeholder="例: 01" required><br>
       <input type="submit" value="診断する">
     </form>
     <div class="result" id="result"></div> <!-- 診断結果表示用 -->
@@ -79,17 +93,23 @@
     document.getElementById('health-check-form').addEventListener('submit', function(event) {
       event.preventDefault(); // フォームの自動送信を防ぐ
 
-      const dob = new Date(document.getElementById('dob').value); // 入力された生年月日
+      // 生年月日の入力値を取得
+      const year = parseInt(document.getElementById('year').value);
+      const month = parseInt(document.getElementById('month').value);
+      const day = parseInt(document.getElementById('day').value);
+
+      // 現在の日付
       const today = new Date();
-      
-      // 年齢を計算
-      let age = today.getFullYear() - dob.getFullYear();
-      const monthDiff = today.getMonth() - dob.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      const birthDate = new Date(year, month - 1, day);
+
+      // 年齢計算
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
 
-      // 年齢に応じた健診コースを表示
+      // 年齢に基づいた健診コースの決定
       let course;
       if (age >= 40 && age < 50) {
         course = '40歳からの健康診断コース';
