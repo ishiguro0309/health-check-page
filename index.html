@@ -6,27 +6,55 @@
   <title>健診コース診断</title>
   <style>
     body {
+      background-image: url('background.jpg'); /* 背景画像 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: Arial, sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.7); /* 半透明の背景色 */
       padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      margin: 50px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
-
-    #healthCheckForm {
-      margin-bottom: 20px;
+    input[type="text"], input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      box-sizing: border-box;
     }
-
-    #result {
-      font-weight: bold;
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <h1>健診コース診断</h1>
-  <form id="healthCheckForm">
-    <label for="dob">生年月日を入力してください:</label>
-    <input type="date" id="dob" name="dob" required>
-    <button type="submit">健診コースを確認</button>
-  </form>
-  <div id="result"></div>
+  <div class="form-container">
+    <h1>健診コース診断</h1>
+    <form>
+      <label for="dob">生年月日を入力してください</label><br>
+      <input type="text" id="dob" name="dob" placeholder="例: 1990-01-01"><br>
+      <input type="submit" value="診断する">
+    </form>
+  </div>
+</body>
+</html>
+
 
   <script>
     document.getElementById("healthCheckForm").addEventListener("submit", function(event) {
